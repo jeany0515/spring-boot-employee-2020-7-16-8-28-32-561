@@ -21,4 +21,19 @@ public class EmployeeMapperTest {
         assertEquals(employee.getName(), employeeRequest.getName());
         assertEquals(employee.getName(), employeeRequest.getName());
     }
+
+    @Test
+    void should_return_employee_response_when_map_given_employee() {
+        //given
+        Employee employee = new Employee(1, 18, "alex", "male", 1000.0, 3);
+        //when
+        EmployeeRespond employee = EmployeeMapper.mapper(employeeRequest);
+        //then
+        assertEquals(employee.getGender(), EmployeeRespond.getGender());
+        assertEquals(employee.getId(), EmployeeRespond.getId());
+        assertEquals(employee.getAge(), EmployeeRespond.getAge());
+        assertEquals(employee.getCompanyId(), EmployeeRespond.getCompanyId());
+        assertEquals(employee.getName(), EmployeeRespond.getName());
+        assertEquals(employee.getName(), EmployeeRespond.getName());
+    }
 }
