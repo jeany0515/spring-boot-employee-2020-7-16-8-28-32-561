@@ -18,6 +18,13 @@ public class Company {
         this.companyName = companyName;
     }
 
+    public Company(Integer id, String companyName, Integer employeesNumber, List<Employee> employees) {
+        this.id = id;
+        this.companyName = companyName;
+        this.employeesNumber = employeesNumber;
+        this.employees = employees;
+    }
+
     public Company() {
     }
 

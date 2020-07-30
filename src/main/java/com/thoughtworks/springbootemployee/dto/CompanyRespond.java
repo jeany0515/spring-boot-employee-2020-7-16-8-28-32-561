@@ -4,21 +4,20 @@ import com.thoughtworks.springbootemployee.model.Employee;
 
 import java.util.List;
 
-public class CompanyRequest {
+public class CompanyRespond {
     private Integer id;
     private String companyName;
     private Integer employeesNumber;
     private List<Employee> employees;
 
-    public CompanyRequest(Integer id, String companyName, Integer employeesNumber, List<Employee> employees) {
+    public CompanyRespond(Integer id, String companyName, Integer employeesNumber, List<Employee> employees) {
         this.id = id;
         this.companyName = companyName;
         this.employeesNumber = employeesNumber;
         this.employees = employees;
     }
 
-    public CompanyRequest() {
-
+    public CompanyRespond() {
     }
 
     public Integer getId() {
