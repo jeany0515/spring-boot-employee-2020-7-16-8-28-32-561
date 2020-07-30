@@ -33,26 +33,20 @@ public class CompanyIntegrationTest {
     @BeforeEach
     public void before() {
         Company company = new Company(1, "ali");
-        Employee firstEmployee = new Employee(1, 18, "alex", "male", 1000.0);
-        Employee secondEmployee = new Employee(2, 18, "alex2", "female", 1000.0);
-        Employee thirdEmployee = new Employee(3, 18, "alex3", "male", 1000.0);
         Company saveCompany = companyRepository.save(company);
-        firstEmployee.setCompanyId(saveCompany.getId());
-        secondEmployee.setCompanyId(saveCompany.getId());
-        thirdEmployee.setCompanyId(saveCompany.getId());
+        Employee firstEmployee = new Employee(1, 18, "alex", "male", 1000.0,saveCompany.getId());
+        Employee secondEmployee = new Employee(2, 18, "alex2", "female", 1000.0,saveCompany.getId());
+        Employee thirdEmployee = new Employee(3, 18, "alex3", "male", 1000.0,saveCompany.getId());
         companyId = saveCompany.getId();
         employeeId = employeeRepository.save(firstEmployee).getId();
         employeeRepository.save(secondEmployee);
         employeeRepository.save(thirdEmployee);
 
         Company companyOfByte = new Company(1, "byte");
-        Employee firstEmployeeOfByte = new Employee(1, 18, "alex4", "male", 1000.0);
-        Employee secondEmployeeOfByte = new Employee(2, 18, "alex5", "female", 1000.0);
-        Employee thirdEmployeeOfByte = new Employee(3, 18, "alex6", "male", 1000.0);
         Company saveCompanyOfByte = companyRepository.save(companyOfByte);
-        firstEmployeeOfByte.setCompanyId(saveCompanyOfByte.getId());
-        secondEmployeeOfByte.setCompanyId(saveCompanyOfByte.getId());
-        thirdEmployeeOfByte.setCompanyId(saveCompanyOfByte.getId());
+        Employee firstEmployeeOfByte = new Employee(1, 18, "alex4", "male", 1000.0,saveCompanyOfByte.getId());
+        Employee secondEmployeeOfByte = new Employee(2, 18, "alex5", "female", 1000.0,saveCompanyOfByte.getId());
+        Employee thirdEmployeeOfByte = new Employee(3, 18, "alex6", "male", 1000.0,saveCompanyOfByte.getId());
         companyId = saveCompanyOfByte.getId();
         employeeId = employeeRepository.save(firstEmployeeOfByte).getId();
         employeeRepository.save(secondEmployeeOfByte);

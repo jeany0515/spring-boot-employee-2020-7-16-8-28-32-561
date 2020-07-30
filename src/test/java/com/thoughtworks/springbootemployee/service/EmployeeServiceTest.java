@@ -25,8 +25,8 @@ public class EmployeeServiceTest {
         //given
         EmployeeRepository employeeRepository = mock(EmployeeRepository.class);
         List<Employee> employees = new ArrayList<>();
-        employees.add(new Employee(1, 18, "hello", "male", 1000.0));
-        employees.add(new Employee(2, 18, "hellome", "male", 1000.0));
+        employees.add(new Employee(1, 18, "hello", "male", 1000.0,1));
+        employees.add(new Employee(2, 18, "hellome", "male", 1000.0,1));
         given(employeeRepository.findAll()).willReturn(employees);
         //when
         EmployeeService employeeService = new EmployeeService(employeeRepository);
@@ -55,7 +55,7 @@ public class EmployeeServiceTest {
         //given
         EmployeeRepository employeeRepository = mock(EmployeeRepository.class);
         List<Employee> employees = new ArrayList<>();
-        employees.add(new Employee(1, 18, "hello", "male", 1000.0));
+        employees.add(new Employee(1, 18, "hello", "male", 1000.0,1));
         given(employeeRepository.findAllByGender(anyString())).willReturn(employees);
         //when
         EmployeeService employeeService = new EmployeeService(employeeRepository);
@@ -68,7 +68,7 @@ public class EmployeeServiceTest {
     void should_return_employee_when_get_employee_given_id() throws NotFoundException {
         //given
         EmployeeRepository employeeRepository = mock(EmployeeRepository.class);
-        Employee employee = new Employee(1, 18, "hello", "male", 1000.0);
+        Employee employee = new Employee(1, 18, "hello", "male", 1000.0,1);
         given(employeeRepository.findById(anyInt())).willReturn(Optional.of(employee));
         //when
         EmployeeService employeeService = new EmployeeService(employeeRepository);
@@ -81,7 +81,7 @@ public class EmployeeServiceTest {
     void should_return_employee_when_add_employee_given_employee() {
         //given
         EmployeeRepository employeeRepository = mock(EmployeeRepository.class);
-        Employee employee = new Employee(23, 18, "alex", "male", 121341564.0);
+        Employee employee = new Employee(23, 18, "alex", "male", 121341564.0,1);
         given(employeeRepository.save(any(Employee.class))).willReturn(employee);
         //when
         EmployeeService employeeService = new EmployeeService(employeeRepository);
@@ -94,7 +94,7 @@ public class EmployeeServiceTest {
     void should_return_employee_when_update_employee_given_employee() {
         //given
         EmployeeRepository employeeRepository = mock(EmployeeRepository.class);
-        Employee employee = new Employee(23, 18, "alex", "female", 1000.0);
+        Employee employee = new Employee(23, 18, "alex", "female", 1000.0,1);
         given(employeeRepository.save(any(Employee.class))).willReturn(employee);
         //when
         EmployeeService employeeService = new EmployeeService(employeeRepository);
@@ -107,7 +107,7 @@ public class EmployeeServiceTest {
     void should_return_employee_when_delete_employee_given_employee_id() throws NotFoundException {
         //given
         EmployeeRepository employeeRepository = mock(EmployeeRepository.class);
-        Employee employee = new Employee(23, 18, "alex", "female", 1000.0);
+        Employee employee = new Employee(23, 18, "alex", "female", 1000.0,1);
         given(employeeRepository.findById(anyInt())).willReturn(Optional.of(employee));
         //when
         EmployeeService employeeService = new EmployeeService(employeeRepository);

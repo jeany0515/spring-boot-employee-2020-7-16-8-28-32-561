@@ -32,13 +32,10 @@ public class EmployeeIntegrationTest {
     @BeforeEach
     public void before() {
         Company company = new Company(1, "ali");
-        Employee firstEmployee = new Employee(1, 18, "alex", "male", 1000.0);
-        Employee secondEmployee = new Employee(2, 18, "alex2", "female", 1000.0);
-        Employee thirdEmployee = new Employee(3, 18, "alex3", "male", 1000.0);
         Company saveCompany = companyRepository.save(company);
-        firstEmployee.setCompanyId(saveCompany.getId());
-        secondEmployee.setCompanyId(saveCompany.getId());
-        thirdEmployee.setCompanyId(saveCompany.getId());
+        Employee firstEmployee = new Employee(1, 18, "alex", "male", 1000.0,saveCompany.getId());
+        Employee secondEmployee = new Employee(2, 18, "alex2", "female", 1000.0,saveCompany.getId());
+        Employee thirdEmployee = new Employee(3, 18, "alex3", "male", 1000.0,saveCompany.getId());
         companyId = saveCompany.getId();
         employeeId = employeeRepository.save(firstEmployee).getId();
         employeeRepository.save(secondEmployee);
