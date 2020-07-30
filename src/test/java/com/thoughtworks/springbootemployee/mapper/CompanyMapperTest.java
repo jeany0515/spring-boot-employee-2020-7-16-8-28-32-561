@@ -1,5 +1,6 @@
 package com.thoughtworks.springbootemployee.mapper;
 
+import com.thoughtworks.springbootemployee.dto.CompanyRequest;
 import com.thoughtworks.springbootemployee.model.Company;
 import org.junit.jupiter.api.Test;
 
@@ -16,8 +17,8 @@ public class CompanyMapperTest {
         Company company = CompanyMapper.map(companyRequest);
         //then
         assertEquals(company.getId(), companyRequest.getId());
-        assertEquals(company.getCompanyName(), companyRequest.getAge());
-        assertEquals(company.getEmployeesNumber(), companyRequest.getCompanyId());
-        assertEquals(company.getEmployees(), companyRequest.getName());
+        assertEquals(company.getCompanyName(), companyRequest.getCompanyName());
+        assertEquals(company.getEmployeesNumber(), companyRequest.getEmployeesNumber());
+        assertEquals(company.getEmployees(), companyRequest.getEmployees());
     }
 }
