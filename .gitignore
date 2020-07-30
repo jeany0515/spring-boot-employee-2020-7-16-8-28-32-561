@@ -32,3 +32,4 @@ build/
 
 ### gradle ###
 .gradle
+/h2/
