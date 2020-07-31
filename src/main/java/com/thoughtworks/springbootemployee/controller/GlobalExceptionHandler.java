@@ -17,4 +17,10 @@ public class GlobalExceptionHandler {
     public ResultBean<Boolean> notFoundException(NotFoundException e) {
         return ResultBean.error(0, e.getMessage());
     }
+
+    @ExceptionHandler(IllegalArgumentException.class)
+    @ResponseStatus(HttpStatus.ACCEPTED)
+    public ResultBean<Boolean> illegalArgumentException(IllegalArgumentException e) {
+        return ResultBean.error(0, e.getMessage());
+    }
 }

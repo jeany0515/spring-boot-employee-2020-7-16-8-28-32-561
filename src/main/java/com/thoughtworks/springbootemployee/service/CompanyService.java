@@ -1,5 +1,6 @@
 package com.thoughtworks.springbootemployee.service;
 
+import com.thoughtworks.springbootemployee.entity.ResultBean;
 import com.thoughtworks.springbootemployee.exception.NotFoundException;
 import com.thoughtworks.springbootemployee.model.Company;
 import com.thoughtworks.springbootemployee.model.Employee;
@@ -8,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
+import org.springframework.util.Assert;
 
 import java.util.List;
 import java.util.Optional;
@@ -17,6 +19,7 @@ public class CompanyService {
     public static final String NO_COMPANY_FOUND = "no company found";
     public static final String COMPANY_NOT_FOUND = "company not found";
     public static final String NO_EMPLOYEE = "no employee";
+    private static final String ID_COULD_NOT_BE_SET = "ID could not be set";
     private final CompanyRepository companyRepository;
 
     @Autowired
@@ -61,6 +64,7 @@ public class CompanyService {
     }
 
     public Company addCompany(Company company) {
+        Assert.isNull(company.getId(), ID_COULD_NOT_BE_SET);
         return companyRepository.save(company);
     }
 

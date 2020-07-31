@@ -18,9 +18,6 @@ import java.util.List;
 @RestController
 @RequestMapping("/companies")
 public class CompanyController {
-
-    private static final String ID_COULD_NOT_BE_SET = "ID could not be set";
-    public static final String NOT_EXIST = "not exist";
     private final CompanyService companyService;
 
     @Autowired
@@ -53,9 +50,6 @@ public class CompanyController {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public ResultBean<Company> addCompany(@RequestBody Company company) {
-        if (company.getId() != null) {
-            return ResultBean.error(ResultBean.ERROR_CODE, ID_COULD_NOT_BE_SET);
-        }
         companyService.addCompany(company);
         return ResultBean.success(company);
     }

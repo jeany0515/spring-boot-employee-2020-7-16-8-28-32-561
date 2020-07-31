@@ -28,7 +28,6 @@ public class CompanyIntegrationTest {
     @Autowired
     private CompanyRepository companyRepository;
     private Integer companyId;
-    private Integer employeeId;
 
     @BeforeEach
     public void before() {
@@ -38,7 +37,7 @@ public class CompanyIntegrationTest {
         Employee secondEmployee = new Employee(2, 18, "alex2", "female", 1000.0,saveCompany.getId());
         Employee thirdEmployee = new Employee(3, 18, "alex3", "male", 1000.0,saveCompany.getId());
         companyId = saveCompany.getId();
-        employeeId = employeeRepository.save(firstEmployee).getId();
+        employeeRepository.save(firstEmployee);
         employeeRepository.save(secondEmployee);
         employeeRepository.save(thirdEmployee);
 
@@ -48,7 +47,7 @@ public class CompanyIntegrationTest {
         Employee secondEmployeeOfByte = new Employee(2, 18, "alex5", "female", 1000.0,saveCompanyOfByte.getId());
         Employee thirdEmployeeOfByte = new Employee(3, 18, "alex6", "male", 1000.0,saveCompanyOfByte.getId());
         companyId = saveCompanyOfByte.getId();
-        employeeId = employeeRepository.save(firstEmployeeOfByte).getId();
+        employeeRepository.save(firstEmployeeOfByte);
         employeeRepository.save(secondEmployeeOfByte);
         employeeRepository.save(thirdEmployeeOfByte);
     }
