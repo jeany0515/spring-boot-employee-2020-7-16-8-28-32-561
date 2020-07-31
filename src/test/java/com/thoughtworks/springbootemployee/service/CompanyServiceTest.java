@@ -58,8 +58,6 @@ public class CompanyServiceTest {
 //        when
         CompanyService companyService = new CompanyService(employeeRepository);
         Page<Company> foundCompanies = companyService.getCompanies(2, 1);
-
-        //todo
 //        then
         assertIterableEquals(companyPage, foundCompanies);
     }
@@ -95,7 +93,7 @@ public class CompanyServiceTest {
         assertEquals(employees, employeesFound);
     }
 
-    //todo rename
+
     @Test
     public void should_return_company_when_add_company_given_company() {
         //given
