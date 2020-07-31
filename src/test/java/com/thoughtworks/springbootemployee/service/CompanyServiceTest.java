@@ -1,6 +1,11 @@
 package com.thoughtworks.springbootemployee.service;
 
+import com.thoughtworks.springbootemployee.dto.CompanyRequest;
+import com.thoughtworks.springbootemployee.dto.CompanyRespond;
+import com.thoughtworks.springbootemployee.dto.EmployeeRespond;
 import com.thoughtworks.springbootemployee.exception.NotFoundException;
+import com.thoughtworks.springbootemployee.mapper.CompanyMapper;
+import com.thoughtworks.springbootemployee.mapper.EmployeeMapper;
 import com.thoughtworks.springbootemployee.model.Company;
 import com.thoughtworks.springbootemployee.model.Employee;
 import com.thoughtworks.springbootemployee.repository.CompanyRepository;
@@ -12,6 +17,7 @@ import org.springframework.data.domain.Pageable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertIterableEquals;
@@ -40,10 +46,10 @@ public class CompanyServiceTest {
         given(employeeRepository.findAll()).willReturn(companies);
 //        when
         CompanyService companyService = new CompanyService(employeeRepository);
-        List<Company> foundCompanies = companyService.getCompanies();
+        List<CompanyRespond> foundCompanies = companyService.getCompanies();
 
 //        then
-        assertIterableEquals(companies, foundCompanies);
+        assertIterableEquals(companies.stream().map(CompanyMapper::map).collect(Collectors.toList()), foundCompanies);
     }
 
     @Test
@@ -57,9 +63,9 @@ public class CompanyServiceTest {
         given(employeeRepository.findAll(any(Pageable.class))).willReturn(companyPage);
 //        when
         CompanyService companyService = new CompanyService(employeeRepository);
-        Page<Company> foundCompanies = companyService.getCompanies(2, 1);
+        Page<CompanyRespond> foundCompanies = companyService.getCompanies(2, 1);
 //        then
-        assertIterableEquals(companyPage, foundCompanies);
+        assertIterableEquals(new PageImpl<>(companyPage.stream().map(CompanyMapper::map).collect(Collectors.toList())), foundCompanies);
     }
 
 
@@ -71,9 +77,9 @@ public class CompanyServiceTest {
         given(employeeRepository.findById(anyInt())).willReturn(Optional.of(company));
 //        when
         CompanyService companyService = new CompanyService(employeeRepository);
-        Company foundCompany = companyService.getCompany(1);
+        CompanyRespond foundCompany = companyService.getCompany(1);
 //        then
-        assertEquals(company, foundCompany);
+        assertEquals(CompanyMapper.map(company), foundCompany);
     }
 
     @Test
@@ -87,10 +93,10 @@ public class CompanyServiceTest {
         given(company.getEmployees()).willReturn(employees);
 //        when
         CompanyService companyService = new CompanyService(employeeRepository);
-        List<Employee> employeesFound = companyService.getEmployees(1);
+        List<EmployeeRespond> employeesFound = companyService.getEmployees(1);
 
 //        then
-        assertEquals(employees, employeesFound);
+        assertEquals(employees.stream().map(EmployeeMapper::map).collect(Collectors.toList()), employeesFound);
     }
 
 
@@ -102,24 +108,25 @@ public class CompanyServiceTest {
         given(employeeRepository.save(any(Company.class))).willReturn(company);
 //        when
         CompanyService companyService = new CompanyService(employeeRepository);
-        Company companyFound = companyService.addCompany(new Company(3, "huawei"));
+        CompanyRespond companyFound = companyService.addCompany(new CompanyRequest(null, "huawei", 100, new ArrayList<>()));
 
 //        then
-        assertEquals(company, companyFound);
+        assertEquals(CompanyMapper.map(company), companyFound);
     }
 
     @Test
-    public void should_return_company_when_update_company_given_company() {
+    public void should_return_company_when_update_company_given_company() throws NotFoundException {
         //given
-        CompanyRepository employeeRepository = mock(CompanyRepository.class);
+        CompanyRepository companyRepository = mock(CompanyRepository.class);
         Company company = new Company();
-        given(employeeRepository.save(any(Company.class))).willReturn(company);
+        given(companyRepository.save(any(Company.class))).willReturn(company);
+        given(companyRepository.findById(anyInt())).willReturn(Optional.of(new Company(1, "s")));
 //        when
-        CompanyService companyService = new CompanyService(employeeRepository);
-        Company companyFound = companyService.updateCompany(2, new Company(33333, "huawei"));
+        CompanyService companyService = new CompanyService(companyRepository);
+        CompanyRespond companyFound = companyService.updateCompany(2, new CompanyRequest(33333, "huawei", 100, new ArrayList<>()));
 
 //        then
-        assertEquals(company, companyFound);
+        assertEquals(CompanyMapper.map(company), companyFound);
     }
 
     @Test
@@ -130,9 +137,9 @@ public class CompanyServiceTest {
         given(employeeRepository.findById(anyInt())).willReturn(Optional.of(company));
 //        when
         CompanyService companyService = new CompanyService(employeeRepository);
-        Company companyFound = companyService.deleteCompany(1);
+        CompanyRespond companyFound = companyService.deleteCompany(1);
 
 //        then
-        assertEquals(company, companyFound);
+        assertEquals(CompanyMapper.map(company), companyFound);
     }
 }

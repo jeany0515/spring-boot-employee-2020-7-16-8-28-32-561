@@ -1,9 +1,10 @@
 package com.thoughtworks.springbootemployee.controller;
 
+import com.thoughtworks.springbootemployee.dto.CompanyRequest;
+import com.thoughtworks.springbootemployee.dto.CompanyRespond;
+import com.thoughtworks.springbootemployee.dto.EmployeeRespond;
 import com.thoughtworks.springbootemployee.entity.ResultBean;
 import com.thoughtworks.springbootemployee.exception.NotFoundException;
-import com.thoughtworks.springbootemployee.model.Company;
-import com.thoughtworks.springbootemployee.model.Employee;
 import com.thoughtworks.springbootemployee.service.CompanyService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -27,7 +28,7 @@ public class CompanyController {
 
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
-    public ResultBean<List<Company>> getCompanies(@PathParam("page") Integer page, @PathParam("pageSize") Integer pageSize) throws NotFoundException {
+    public ResultBean<List<CompanyRespond>> getCompanies(@PathParam("page") Integer page, @PathParam("pageSize") Integer pageSize) throws NotFoundException {
         if (page == null || pageSize == null) {
             return ResultBean.success(companyService.getCompanies());
         }
@@ -37,26 +38,25 @@ public class CompanyController {
 
     @GetMapping("/{companyID}")
     @ResponseStatus(HttpStatus.OK)
-    public ResultBean<Company> getCompany(@PathVariable Integer companyID) throws NotFoundException {
+    public ResultBean<CompanyRespond> getCompany(@PathVariable Integer companyID) throws NotFoundException {
         return ResultBean.success(companyService.getCompany(companyID));
     }
 
     @GetMapping("/{companyID}/employees")
     @ResponseStatus(HttpStatus.OK)
-    public ResultBean<List<Employee>> getEmployee(@PathVariable Integer companyID) throws NotFoundException {
+    public ResultBean<List<EmployeeRespond>> getEmployee(@PathVariable Integer companyID) throws NotFoundException {
         return ResultBean.success(companyService.getEmployees(companyID));
     }
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public ResultBean<Company> addCompany(@RequestBody Company company) {
-        companyService.addCompany(company);
-        return ResultBean.success(company);
+    public ResultBean<CompanyRespond> addCompany(@RequestBody CompanyRequest companyRequest) {
+        return ResultBean.success(companyService.addCompany(companyRequest));
     }
 
     @PutMapping("/{companyID}")
     @ResponseStatus(HttpStatus.OK)
-    public ResultBean<Company> updateCompany(@RequestBody Company companyInfo, @PathVariable Integer companyID) {
+    public ResultBean<CompanyRespond> updateCompany(@RequestBody CompanyRequest companyInfo, @PathVariable Integer companyID) throws NotFoundException {
         return ResultBean.success(companyService.updateCompany(companyID, companyInfo));
     }
 

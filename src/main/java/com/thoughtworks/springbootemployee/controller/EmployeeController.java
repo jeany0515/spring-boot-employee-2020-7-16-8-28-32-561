@@ -1,8 +1,9 @@
 package com.thoughtworks.springbootemployee.controller;
 
+import com.thoughtworks.springbootemployee.dto.EmployeeRequest;
+import com.thoughtworks.springbootemployee.dto.EmployeeRespond;
 import com.thoughtworks.springbootemployee.entity.ResultBean;
 import com.thoughtworks.springbootemployee.exception.NotFoundException;
-import com.thoughtworks.springbootemployee.model.Employee;
 import com.thoughtworks.springbootemployee.service.EmployeeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -17,8 +18,6 @@ import java.util.List;
 @RestController
 @RequestMapping("/employees")
 public class EmployeeController {
-
-    public static final String NOT_EXIST = "not exist";
     public final EmployeeService employeeService;
 
     @Autowired
@@ -29,8 +28,8 @@ public class EmployeeController {
 
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
-    public ResultBean<List<Employee>> getEmployees(@PathParam("page") Integer page, @PathParam("pageSize") Integer pageSize, @PathParam("gender") String gender) throws NotFoundException {
-        List<Employee> result = gender == null ? null : employeeService.getEmployees(gender);
+    public ResultBean<List<EmployeeRespond>> getEmployees(@PathParam("page") Integer page, @PathParam("pageSize") Integer pageSize, @PathParam("gender") String gender) throws NotFoundException {
+        List<EmployeeRespond> result = gender == null ? null : employeeService.getEmployees(gender);
         if (result == null) {
             result = employeeService.getEmployees();
         }
@@ -39,20 +38,20 @@ public class EmployeeController {
 
     @GetMapping("/{employeeID}")
     @ResponseStatus(HttpStatus.OK)
-    public ResultBean<Employee> getEmployee(@PathVariable Integer employeeID) throws NotFoundException {
+    public ResultBean<EmployeeRespond> getEmployee(@PathVariable Integer employeeID) throws NotFoundException {
         return ResultBean.success(employeeService.getEmployee(employeeID));
     }
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public ResultBean<Employee> addEmployee(@RequestBody Employee employee) throws NotFoundException {
-        return ResultBean.success(employeeService.addEmployee(employee));
+    public ResultBean<EmployeeRespond> addEmployee(@RequestBody EmployeeRequest employeeRequest) throws NotFoundException {
+        return ResultBean.success(employeeService.addEmployee(employeeRequest));
     }
 
     @PutMapping("/{employeeID}")
     @ResponseStatus(HttpStatus.OK)
-    public ResultBean<Employee> updateEmployee(@PathVariable Integer employeeID, @RequestBody Employee employee) {
-        return ResultBean.success(employeeService.updateEmployee(employeeID, employee));
+    public ResultBean<EmployeeRespond> updateEmployee(@PathVariable Integer employeeID, @RequestBody EmployeeRequest employeeRequest) throws NotFoundException {
+        return ResultBean.success(employeeService.updateEmployee(employeeID, employeeRequest));
     }
 
     @DeleteMapping("/{employeeID}")

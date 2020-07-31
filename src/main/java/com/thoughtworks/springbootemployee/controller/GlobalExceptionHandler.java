@@ -29,6 +29,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(Exception.class)
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     public ResultBean<Boolean> exception(Exception e) {
-        return ResultBean.error(0, UNKNOWN_ERROR);
+        e.printStackTrace();
+        return ResultBean.error(0, e.getMessage());
     }
 }

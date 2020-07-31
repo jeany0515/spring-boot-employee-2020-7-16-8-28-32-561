@@ -46,7 +46,6 @@ public class Company {
 
     public void setEmployees(List<Employee> employees) {
         this.employees = employees;
-        this.employeesNumber = this.employees.size();
     }
 
     public List<Employee> getEmployees() {

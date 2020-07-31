@@ -1,6 +1,10 @@
 package com.thoughtworks.springbootemployee.service;
 
+import com.thoughtworks.springbootemployee.dto.CompanyRespond;
+import com.thoughtworks.springbootemployee.dto.EmployeeRequest;
+import com.thoughtworks.springbootemployee.dto.EmployeeRespond;
 import com.thoughtworks.springbootemployee.exception.NotFoundException;
+import com.thoughtworks.springbootemployee.mapper.EmployeeMapper;
 import com.thoughtworks.springbootemployee.model.Employee;
 import com.thoughtworks.springbootemployee.repository.EmployeeRepository;
 import org.junit.jupiter.api.Test;
@@ -11,6 +15,7 @@ import org.springframework.data.domain.Pageable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertIterableEquals;
@@ -30,9 +35,9 @@ public class EmployeeServiceTest {
         given(employeeRepository.findAll()).willReturn(employees);
         //when
         EmployeeService employeeService = new EmployeeService(employeeRepository);
-        List<Employee> employeeList = employeeService.getEmployees();
+        List<EmployeeRespond> employeeList = employeeService.getEmployees();
         //then
-        assertIterableEquals(employeeList, employees);
+        assertIterableEquals(employeeList, employees.stream().map(EmployeeMapper::map).collect(Collectors.toList()));
     }
 
     @Test
@@ -45,9 +50,9 @@ public class EmployeeServiceTest {
         given(employeeRepository.findAll(any(Pageable.class))).willReturn(employees);
         //when
         EmployeeService employeeService = new EmployeeService(employeeRepository);
-        Page<Employee> employeesFound = employeeService.getEmployees(1, 2);
+        Page<EmployeeRespond> employeesFound = employeeService.getEmployees(1, 2);
         //then
-        assertEquals(employees, employeesFound);
+        assertEquals(new PageImpl<>(employees.stream().map(EmployeeMapper::map).collect(Collectors.toList())), employeesFound);
     }
 
     @Test
@@ -59,9 +64,9 @@ public class EmployeeServiceTest {
         given(employeeRepository.findAllByGender(anyString())).willReturn(employees);
         //when
         EmployeeService employeeService = new EmployeeService(employeeRepository);
-        List<Employee> employeeList = employeeService.getEmployees("male");
+        List<EmployeeRespond> employeeList = employeeService.getEmployees("male");
         //then
-        assertIterableEquals(employeeList, employeeList);
+        assertIterableEquals(employees.stream().map(EmployeeMapper::map).collect(Collectors.toList()), employeeList);
     }
 
     @Test
@@ -72,35 +77,42 @@ public class EmployeeServiceTest {
         given(employeeRepository.findById(anyInt())).willReturn(Optional.of(employee));
         //when
         EmployeeService employeeService = new EmployeeService(employeeRepository);
-        Employee employeeFound = employeeService.getEmployee(1);
+        EmployeeRespond employeeFound = employeeService.getEmployee(1);
         //then
-        assertEquals(employee, employeeFound);
+        assertEquals(EmployeeMapper.map(employee), employeeFound);
     }
 
     @Test
-    void should_return_employee_when_add_employee_given_employee() {
+    void should_return_employee_when_add_employee_given_employee() throws NotFoundException {
         //given
         EmployeeRepository employeeRepository = mock(EmployeeRepository.class);
-        Employee employee = new Employee(23, 18, "alex", "male", 121341564.0,1);
-        given(employeeRepository.save(any(Employee.class))).willReturn(employee);
-        //when
+        CompanyService companyService = mock(CompanyService.class);
+        EmployeeRequest employee = new EmployeeRequest(23, 18, "alex", "male", 121341564.0, 1);
+        given(employeeRepository.save(any(Employee.class))).willReturn(EmployeeMapper.map(employee));
+        given(companyService.getCompany(anyInt())).willReturn(new CompanyRespond());
         EmployeeService employeeService = new EmployeeService(employeeRepository);
-        Employee employeeFound = employeeService.addEmployee(employee);
+        employeeService.setCompanyService(companyService);
+        //when
+        EmployeeRespond employeeFound = employeeService.addEmployee(employee);
         //then
-        assertEquals(employee, employeeFound);
+        assertEquals(EmployeeMapper.map(EmployeeMapper.map(employee)), employeeFound);
     }
 
     @Test
-    void should_return_employee_when_update_employee_given_employee() {
+    void should_return_employee_when_update_employee_given_employee() throws NotFoundException {
         //given
         EmployeeRepository employeeRepository = mock(EmployeeRepository.class);
-        Employee employee = new Employee(23, 18, "alex", "female", 1000.0,1);
-        given(employeeRepository.save(any(Employee.class))).willReturn(employee);
-        //when
+        CompanyService companyService = mock(CompanyService.class);
+        EmployeeRequest employee = new EmployeeRequest(23, 18, "alex", "female", 1000.0, 1);
+        given(employeeRepository.save(any(Employee.class))).willReturn(EmployeeMapper.map(employee));
+        given(employeeRepository.findById(anyInt())).willReturn(Optional.of(new Employee(1, 1, "ff", "ff", 1.0, 1)));
         EmployeeService employeeService = new EmployeeService(employeeRepository);
-        Employee employeeFound = employeeService.updateEmployee(1, employee);
+        employeeService.setCompanyService(companyService);
+        given(companyService.getCompany(anyInt())).willReturn(new CompanyRespond(1, "ali", 100, null));
+        //when
+        EmployeeRespond employeeFound = employeeService.updateEmployee(1, employee);
         //then
-        assertEquals(employee, employeeFound);
+        assertEquals(EmployeeMapper.map(EmployeeMapper.map(employee)), employeeFound);
     }
 
     @Test
@@ -111,8 +123,8 @@ public class EmployeeServiceTest {
         given(employeeRepository.findById(anyInt())).willReturn(Optional.of(employee));
         //when
         EmployeeService employeeService = new EmployeeService(employeeRepository);
-        Employee employeeFound = employeeService.delete(1);
+        EmployeeRespond employeeFound = employeeService.delete(1);
         //then
-        assertEquals(employee, employeeFound);
+        assertEquals(EmployeeMapper.map(employee), employeeFound);
     }
 }
