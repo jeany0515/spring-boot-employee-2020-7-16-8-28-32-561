@@ -16,10 +16,16 @@ public class EmployeeService {
     public static final String NO_EMPLOYEE = "no employee";
     public static final String NO_QUALIFIED_EMPLOYEES = "no qualified employees";
     private final EmployeeRepository employeeRepository;
+    private CompanyService companyService;
 
     @Autowired
     public EmployeeService(EmployeeRepository employeeRepository) {
         this.employeeRepository = employeeRepository;
+    }
+
+    @Autowired
+    public void setCompanyService(CompanyService companyService) {
+        this.companyService = companyService;
     }
 
     public List<Employee> getEmployees() throws NotFoundException {
@@ -54,7 +60,10 @@ public class EmployeeService {
         return employee;
     }
 
-    public Employee addEmployee(Employee employee) {
+    public Employee addEmployee(Employee employee) throws NotFoundException {
+        if (employee.getCompanyId() != null) {
+            companyService.getCompany(employee.getCompanyId());
+        }
         return employeeRepository.save(employee);
     }
 

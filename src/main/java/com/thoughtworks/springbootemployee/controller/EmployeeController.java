@@ -45,7 +45,7 @@ public class EmployeeController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public ResultBean<Employee> addEmployee(@RequestBody Employee employee) {
+    public ResultBean<Employee> addEmployee(@RequestBody Employee employee) throws NotFoundException {
         return ResultBean.success(employeeService.addEmployee(employee));
     }
 
