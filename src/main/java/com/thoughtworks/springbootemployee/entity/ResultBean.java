@@ -5,6 +5,7 @@ import java.io.Serializable;
 public class ResultBean<T> implements Serializable {
     public static final int SUCCESS_CODE = 1;
     public static final int ERROR_CODE = 0;
+    public static final String SUCCESS = "success";
     private int code;
     private String message;
     private T data;
@@ -14,23 +15,23 @@ public class ResultBean<T> implements Serializable {
     }
 
     public static <T> ResultBean<T> error(int code, String message) {
-        ResultBean<T> resultBean = new ResultBean<T>();
+        ResultBean<T> resultBean = new ResultBean<>();
         resultBean.setCode(code);
         resultBean.setMessage(message);
         return resultBean;
     }
 
     public static <T> ResultBean<T> success() {
-        ResultBean<T> resultBean = new ResultBean<T>();
+        ResultBean<T> resultBean = new ResultBean<>();
         resultBean.setCode(SUCCESS_CODE);
-        resultBean.setMessage("success");
+        resultBean.setMessage(SUCCESS);
         return resultBean;
     }
 
     public static <T> ResultBean<T> success(T data) {
-        ResultBean<T> resultBean = new ResultBean<T>();
+        ResultBean<T> resultBean = new ResultBean<>();
         resultBean.setCode(SUCCESS_CODE);
-        resultBean.setMessage("success");
+        resultBean.setMessage(SUCCESS);
         resultBean.setData(data);
         return resultBean;
     }

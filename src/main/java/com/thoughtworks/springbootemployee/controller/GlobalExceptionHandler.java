@@ -17,19 +17,19 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(NotFoundException.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
     public ResultBean<Boolean> notFoundException(NotFoundException e) {
-        return ResultBean.error(0, e.getMessage());
+        return ResultBean.error(ResultBean.ERROR_CODE, e.getMessage());
     }
 
     @ExceptionHandler(IllegalArgumentException.class)
     @ResponseStatus(HttpStatus.ACCEPTED)
     public ResultBean<Boolean> illegalArgumentException(IllegalArgumentException e) {
-        return ResultBean.error(0, e.getMessage());
+        return ResultBean.error(ResultBean.ERROR_CODE, e.getMessage());
     }
 
     @ExceptionHandler(Exception.class)
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     public ResultBean<Boolean> exception(Exception e) {
         e.printStackTrace();
-        return ResultBean.error(0, e.getMessage());
+        return ResultBean.error(ResultBean.ERROR_CODE, e.getMessage());
     }
 }
