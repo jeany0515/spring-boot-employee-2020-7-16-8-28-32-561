@@ -21,6 +21,7 @@ import java.util.stream.Collectors;
 
 @Service
 public class CompanyService {
+    //todo private
     public static final String NO_COMPANY_FOUND = "no company found";
     public static final String COMPANY_NOT_FOUND = "company not found";
     public static final String NO_EMPLOYEE = "no employee";
@@ -46,6 +47,7 @@ public class CompanyService {
         if (companies.isEmpty()) {
             throw new NotFoundException(COMPANY_NOT_FOUND);
         }
+        //todo page
         return new PageImpl<>(companies.stream().map(CompanyMapper::map).collect(Collectors.toList()));
     }
 
@@ -76,7 +78,7 @@ public class CompanyService {
 
     public CompanyRespond updateCompany(Integer id, CompanyRequest companyRequest) throws NotFoundException {
         Company company = CompanyMapper.map(companyRequest);
-        getCompany(id);
+        Assert.isTrue(isCompanyExist(id), NO_COMPANY_FOUND);
         company.setId(id);
         return CompanyMapper.map(companyRepository.save(company));
     }
@@ -85,5 +87,9 @@ public class CompanyService {
         CompanyRespond company = getCompany(id);
         companyRepository.deleteById(id);
         return company;
+    }
+
+    public boolean isCompanyExist(Integer id) {
+        return companyRepository.findById(id).isPresent();
     }
 }
