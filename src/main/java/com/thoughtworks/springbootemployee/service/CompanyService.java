@@ -21,10 +21,9 @@ import java.util.stream.Collectors;
 
 @Service
 public class CompanyService {
-    //todo private
-    public static final String NO_COMPANY_FOUND = "no company found";
-    public static final String COMPANY_NOT_FOUND = "company not found";
-    public static final String NO_EMPLOYEE = "no employee";
+    private static final String NO_COMPANY_FOUND = "no company found";
+    private static final String COMPANY_NOT_FOUND = "company not found";
+    private static final String NO_EMPLOYEE = "no employee";
     private static final String ID_COULD_NOT_BE_SET = "ID could not be set";
     private final CompanyRepository companyRepository;
 
