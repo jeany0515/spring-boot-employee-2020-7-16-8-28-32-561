@@ -12,24 +12,21 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 @ResponseBody
 public class GlobalExceptionHandler {
 
-    public static final String UNKNOWN_ERROR = "unknown error happened";
-
     @ExceptionHandler(NotFoundException.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
-    public ResultBean<Boolean> notFoundException(NotFoundException e) {
-        return ResultBean.error(ResultBean.ERROR_CODE, e.getMessage());
+    public ResultBean<Boolean> notFoundException(NotFoundException exception) {
+        return ResultBean.error(ResultBean.ERROR_CODE, exception.getMessage());
     }
 
     @ExceptionHandler(IllegalArgumentException.class)
-    @ResponseStatus(HttpStatus.ACCEPTED)
-    public ResultBean<Boolean> illegalArgumentException(IllegalArgumentException e) {
-        return ResultBean.error(ResultBean.ERROR_CODE, e.getMessage());
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ResultBean<Boolean> illegalArgumentException(IllegalArgumentException exception) {
+        return ResultBean.error(ResultBean.ERROR_CODE, exception.getMessage());
     }
 
     @ExceptionHandler(Exception.class)
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
-    public ResultBean<Boolean> exception(Exception e) {
-        e.printStackTrace();
-        return ResultBean.error(ResultBean.ERROR_CODE, e.getMessage());
+    public ResultBean<Boolean> exception(Exception exception) {
+        return ResultBean.error(ResultBean.ERROR_CODE, exception.getMessage());
     }
 }
