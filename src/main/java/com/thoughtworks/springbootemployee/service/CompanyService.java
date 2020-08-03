@@ -2,7 +2,7 @@ package com.thoughtworks.springbootemployee.service;
 
 import com.thoughtworks.springbootemployee.dto.CompanyRequest;
 import com.thoughtworks.springbootemployee.dto.CompanyRespond;
-import com.thoughtworks.springbootemployee.dto.EmployeeRespond;
+import com.thoughtworks.springbootemployee.dto.EmployeeResponse;
 import com.thoughtworks.springbootemployee.exception.NotFoundException;
 import com.thoughtworks.springbootemployee.mapper.CompanyMapper;
 import com.thoughtworks.springbootemployee.mapper.EmployeeMapper;
@@ -58,7 +58,7 @@ public class CompanyService {
         return CompanyMapper.map(company.get());
     }
 
-    public List<EmployeeRespond> getEmployees(Integer id) throws NotFoundException {
+    public List<EmployeeResponse> getEmployees(Integer id) throws NotFoundException {
         Company company = companyRepository.findById(id).orElse(null);
         if (company == null) {
             throw new NotFoundException(COMPANY_NOT_FOUND);
@@ -75,7 +75,7 @@ public class CompanyService {
         return CompanyMapper.map(companyRepository.save(company));
     }
 
-    public CompanyRespond updateCompany(Integer id, CompanyRequest companyRequest) throws NotFoundException {
+    public CompanyRespond updateCompany(Integer id, CompanyRequest companyRequest) {
         Company company = CompanyMapper.map(companyRequest);
         Assert.isTrue(isCompanyExist(id), NO_COMPANY_FOUND);
         company.setId(id);

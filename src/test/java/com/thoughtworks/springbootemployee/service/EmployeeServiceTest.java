@@ -2,7 +2,7 @@ package com.thoughtworks.springbootemployee.service;
 
 import com.thoughtworks.springbootemployee.dto.CompanyRespond;
 import com.thoughtworks.springbootemployee.dto.EmployeeRequest;
-import com.thoughtworks.springbootemployee.dto.EmployeeRespond;
+import com.thoughtworks.springbootemployee.dto.EmployeeResponse;
 import com.thoughtworks.springbootemployee.exception.NotFoundException;
 import com.thoughtworks.springbootemployee.mapper.EmployeeMapper;
 import com.thoughtworks.springbootemployee.model.Employee;
@@ -35,7 +35,7 @@ public class EmployeeServiceTest {
         given(employeeRepository.findAll()).willReturn(employees);
         //when
         EmployeeService employeeService = new EmployeeService(employeeRepository);
-        List<EmployeeRespond> employeeList = employeeService.getEmployees();
+        List<EmployeeResponse> employeeList = employeeService.getEmployees();
         //then
         assertIterableEquals(employeeList, employees.stream().map(EmployeeMapper::map).collect(Collectors.toList()));
     }
@@ -50,7 +50,7 @@ public class EmployeeServiceTest {
         given(employeeRepository.findAll(any(Pageable.class))).willReturn(employees);
         //when
         EmployeeService employeeService = new EmployeeService(employeeRepository);
-        Page<EmployeeRespond> employeesFound = employeeService.getEmployees(1, 2);
+        Page<EmployeeResponse> employeesFound = employeeService.getEmployees(1, 2);
         //then
         assertEquals(new PageImpl<>(employees.stream().map(EmployeeMapper::map).collect(Collectors.toList())), employeesFound);
     }
@@ -64,7 +64,7 @@ public class EmployeeServiceTest {
         given(employeeRepository.findAllByGender(anyString())).willReturn(employees);
         //when
         EmployeeService employeeService = new EmployeeService(employeeRepository);
-        List<EmployeeRespond> employeeList = employeeService.getEmployees("male");
+        List<EmployeeResponse> employeeList = employeeService.getEmployees("male");
         //then
         assertIterableEquals(employees.stream().map(EmployeeMapper::map).collect(Collectors.toList()), employeeList);
     }
@@ -77,7 +77,7 @@ public class EmployeeServiceTest {
         given(employeeRepository.findById(anyInt())).willReturn(Optional.of(employee));
         //when
         EmployeeService employeeService = new EmployeeService(employeeRepository);
-        EmployeeRespond employeeFound = employeeService.getEmployee(1);
+        EmployeeResponse employeeFound = employeeService.getEmployee(1);
         //then
         assertEquals(EmployeeMapper.map(employee), employeeFound);
     }
@@ -93,7 +93,7 @@ public class EmployeeServiceTest {
         EmployeeService employeeService = new EmployeeService(employeeRepository);
         employeeService.setCompanyService(companyService);
         //when
-        EmployeeRespond employeeFound = employeeService.addEmployee(employee);
+        EmployeeResponse employeeFound = employeeService.addEmployee(employee);
         //then
         assertEquals(EmployeeMapper.map(EmployeeMapper.map(employee)), employeeFound);
     }
@@ -110,7 +110,7 @@ public class EmployeeServiceTest {
         employeeService.setCompanyService(companyService);
         given(companyService.getCompany(anyInt())).willReturn(new CompanyRespond(1, "ali", 100, null));
         //when
-        EmployeeRespond employeeFound = employeeService.updateEmployee(1, employee);
+        EmployeeResponse employeeFound = employeeService.updateEmployee(1, employee);
         //then
         assertEquals(EmployeeMapper.map(EmployeeMapper.map(employee)), employeeFound);
     }
@@ -123,7 +123,7 @@ public class EmployeeServiceTest {
         given(employeeRepository.findById(anyInt())).willReturn(Optional.of(employee));
         //when
         EmployeeService employeeService = new EmployeeService(employeeRepository);
-        EmployeeRespond employeeFound = employeeService.delete(1);
+        EmployeeResponse employeeFound = employeeService.delete(1);
         //then
         assertEquals(EmployeeMapper.map(employee), employeeFound);
     }

@@ -2,7 +2,7 @@ package com.thoughtworks.springbootemployee.service;
 
 import com.thoughtworks.springbootemployee.dto.CompanyRequest;
 import com.thoughtworks.springbootemployee.dto.CompanyRespond;
-import com.thoughtworks.springbootemployee.dto.EmployeeRespond;
+import com.thoughtworks.springbootemployee.dto.EmployeeResponse;
 import com.thoughtworks.springbootemployee.exception.NotFoundException;
 import com.thoughtworks.springbootemployee.mapper.CompanyMapper;
 import com.thoughtworks.springbootemployee.mapper.EmployeeMapper;
@@ -93,7 +93,7 @@ public class CompanyServiceTest {
         given(company.getEmployees()).willReturn(employees);
 //        when
         CompanyService companyService = new CompanyService(employeeRepository);
-        List<EmployeeRespond> employeesFound = companyService.getEmployees(1);
+        List<EmployeeResponse> employeesFound = companyService.getEmployees(1);
 
 //        then
         assertEquals(employees.stream().map(EmployeeMapper::map).collect(Collectors.toList()), employeesFound);
@@ -115,7 +115,7 @@ public class CompanyServiceTest {
     }
 
     @Test
-    public void should_return_company_when_update_company_given_company() throws NotFoundException {
+    public void should_return_company_when_update_company_given_company() {
         //given
         CompanyRepository companyRepository = mock(CompanyRepository.class);
         Company company = new Company();

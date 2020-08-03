@@ -1,7 +1,7 @@
 package com.thoughtworks.springbootemployee.mapper;
 
 import com.thoughtworks.springbootemployee.dto.EmployeeRequest;
-import com.thoughtworks.springbootemployee.dto.EmployeeRespond;
+import com.thoughtworks.springbootemployee.dto.EmployeeResponse;
 import com.thoughtworks.springbootemployee.model.Employee;
 import org.springframework.beans.BeanUtils;
 
@@ -12,9 +12,9 @@ public class EmployeeMapper {
         return employee;
     }
 
-    public static EmployeeRespond map(Employee employee) {
-        EmployeeRespond employeeRespond = new EmployeeRespond();
-        BeanUtils.copyProperties(employee, employeeRespond);
-        return employeeRespond;
+    public static EmployeeResponse map(Employee employee) {
+        EmployeeResponse employeeResponse = new EmployeeResponse();
+        BeanUtils.copyProperties(employee, employeeResponse);
+        return employeeResponse;
     }
 }

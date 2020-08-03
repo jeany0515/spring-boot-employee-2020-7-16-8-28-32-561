@@ -2,7 +2,7 @@ package com.thoughtworks.springbootemployee.dto;
 
 import java.util.Objects;
 
-public class EmployeeRespond {
+public class EmployeeResponse {
     private Integer id;
     private Integer age;
     private String name;
@@ -10,7 +10,7 @@ public class EmployeeRespond {
     private Double salary;
     private Integer companyId;
 
-    public EmployeeRespond(Integer id, Integer age, String name, String gender, Double salary, Integer companyId) {
+    public EmployeeResponse(Integer id, Integer age, String name, String gender, Double salary, Integer companyId) {
         this.id = id;
         this.age = age;
         this.name = name;
@@ -19,7 +19,7 @@ public class EmployeeRespond {
         this.companyId = companyId;
     }
 
-    public EmployeeRespond() {
+    public EmployeeResponse() {
     }
 
     public Integer getId() {
@@ -72,9 +72,13 @@ public class EmployeeRespond {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        EmployeeRespond that = (EmployeeRespond) o;
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        EmployeeResponse that = (EmployeeResponse) o;
         return Objects.equals(id, that.id) &&
                 Objects.equals(age, that.age) &&
                 Objects.equals(name, that.name) &&

@@ -1,7 +1,7 @@
 package com.thoughtworks.springbootemployee.mapper;
 
 import com.thoughtworks.springbootemployee.dto.EmployeeRequest;
-import com.thoughtworks.springbootemployee.dto.EmployeeRespond;
+import com.thoughtworks.springbootemployee.dto.EmployeeResponse;
 import com.thoughtworks.springbootemployee.model.Employee;
 import org.junit.jupiter.api.Test;
 
@@ -28,13 +28,13 @@ public class EmployeeMapperTest {
         //given
         Employee employee = new Employee(1, 18, "alex", "male", 1000.0, 3);
         //when
-        EmployeeRespond employeeRespond = EmployeeMapper.map(employee);
+        EmployeeResponse employeeResponse = EmployeeMapper.map(employee);
         //then
-        assertEquals(employee.getGender(), employeeRespond.getGender());
-        assertEquals(employee.getId(), employeeRespond.getId());
-        assertEquals(employee.getAge(), employeeRespond.getAge());
-        assertEquals(employee.getCompanyId(), employeeRespond.getCompanyId());
-        assertEquals(employee.getName(), employeeRespond.getName());
-        assertEquals(employee.getName(), employeeRespond.getName());
+        assertEquals(employee.getGender(), employeeResponse.getGender());
+        assertEquals(employee.getId(), employeeResponse.getId());
+        assertEquals(employee.getAge(), employeeResponse.getAge());
+        assertEquals(employee.getCompanyId(), employeeResponse.getCompanyId());
+        assertEquals(employee.getName(), employeeResponse.getName());
+        assertEquals(employee.getName(), employeeResponse.getName());
     }
 }

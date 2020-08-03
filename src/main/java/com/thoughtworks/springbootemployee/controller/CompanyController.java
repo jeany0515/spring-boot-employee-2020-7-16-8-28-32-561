@@ -2,7 +2,7 @@ package com.thoughtworks.springbootemployee.controller;
 
 import com.thoughtworks.springbootemployee.dto.CompanyRequest;
 import com.thoughtworks.springbootemployee.dto.CompanyRespond;
-import com.thoughtworks.springbootemployee.dto.EmployeeRespond;
+import com.thoughtworks.springbootemployee.dto.EmployeeResponse;
 import com.thoughtworks.springbootemployee.entity.ResultBean;
 import com.thoughtworks.springbootemployee.exception.NotFoundException;
 import com.thoughtworks.springbootemployee.service.CompanyService;
@@ -44,7 +44,7 @@ public class CompanyController {
 
     @GetMapping("/{companyID}/employees")
     @ResponseStatus(HttpStatus.OK)
-    public ResultBean<List<EmployeeRespond>> getEmployee(@PathVariable Integer companyID) throws NotFoundException {
+    public ResultBean<List<EmployeeResponse>> getEmployee(@PathVariable Integer companyID) throws NotFoundException {
         return ResultBean.success(companyService.getEmployees(companyID));
     }
 
@@ -56,7 +56,7 @@ public class CompanyController {
 
     @PutMapping("/{companyID}")
     @ResponseStatus(HttpStatus.OK)
-    public ResultBean<CompanyRespond> updateCompany(@RequestBody CompanyRequest companyInfo, @PathVariable Integer companyID) throws NotFoundException {
+    public ResultBean<CompanyRespond> updateCompany(@RequestBody CompanyRequest companyInfo, @PathVariable Integer companyID) {
         return ResultBean.success(companyService.updateCompany(companyID, companyInfo));
     }
 
