@@ -47,7 +47,7 @@ public class EmployeeService {
         if (employees.isEmpty()) {
             throw new NotFoundException(NO_EMPLOYEE);
         }
-        return new PageImpl<>(employees.stream().map(EmployeeMapper::map).collect(Collectors.toList()));
+        return new PageImpl<>(employees.stream().map(EmployeeMapper::map).collect(Collectors.toList()), employees.getPageable(), employees.getTotalElements());
     }
 
     public List<EmployeeResponse> getEmployees(String gender) throws NotFoundException {

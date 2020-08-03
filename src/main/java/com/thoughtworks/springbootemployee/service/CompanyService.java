@@ -47,7 +47,7 @@ public class CompanyService {
             throw new NotFoundException(COMPANY_NOT_FOUND);
         }
         //todo page
-        return new PageImpl<>(companies.stream().map(CompanyMapper::map).collect(Collectors.toList()));
+        return new PageImpl<>(companies.stream().map(CompanyMapper::map).collect(Collectors.toList()), companies.getPageable(), companies.getTotalElements());
     }
 
     public CompanyRespond getCompany(Integer id) throws NotFoundException {
